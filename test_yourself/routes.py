@@ -1,3 +1,5 @@
+from random import randint
+
 from test_yourself import app, db_controls
 from flask import render_template, request
 
@@ -23,8 +25,10 @@ def add_test():
 @app.route("/drivers_test", methods=['GET', 'POST'])
 def drivers_test():
     all_data = db_controls.get_db()
+    correct = {i[0]: i[3] for i in all_data}
+    [test.insert(randint(1, 3), test.pop(3)) for test in all_data]
     if request.method == "POST":
-        return request.form
+        return correct
     return render_template("drivers_test.html", all_data=all_data)
 
 

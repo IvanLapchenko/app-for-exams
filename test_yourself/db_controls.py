@@ -27,7 +27,9 @@ def get_db():
         db = g._database = sqlite3.connect("app.db")
         cursor = db.cursor()
         cursor.execute("select * from drivers_test")
-        return cursor.fetchall()
+        all_data = cursor.fetchall()
+        all_data = [list(l) for l in all_data]
+        return all_data
 
 
 def delete_question(que):
