@@ -1,0 +1,22 @@
+form {
+    padding: 20px;
+    margin: 30px;
+    background-color: #f0d795;
+    color: #493959;
+    text-align: center;
+}
+
+input {
+    margin: 10px;
+}
+
+input[type=submit]  {
+  background-color: #c6cc5a;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  padding: 8px 16px;
+  text-decoration: none;
+  margin: 4px 2px;
+  cursor: pointer;
+}

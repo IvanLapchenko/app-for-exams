@@ -4,5 +4,4 @@ app = Flask(__name__)
 
 from test_yourself import routes
 
-if __name__ == '__main__':
-    app.run()
+app.secret_key = "SoMeThInG"
