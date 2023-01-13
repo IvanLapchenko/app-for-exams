@@ -49,6 +49,10 @@ def delete_question(que):
         return msg
 
 
+def add_table(name):
+    with sqlite3.connect("app.db") as connection:
+        connection.execute(f'CREATE TABLE {name} (question TEXT, ans1 TEXT, ans2 TEXT, correct TEXT)')
+
 @app.teardown_appcontext
 def close_connection(ex):
     db = getattr(g, "_database", None)

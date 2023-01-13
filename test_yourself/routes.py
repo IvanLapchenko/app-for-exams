@@ -38,9 +38,7 @@ def drivers_test():
         return render_template("see_result.html", correct_answers=correct_answers, passed=passed)
     return render_template("drivers_test.html", all_data=all_data)
 
-# @app.route("/view_test", methods=['GET', 'POST'])
-# def view_test():
-#     all_data = db_controls.get_db()
-#     if request.method == "POST":
-#         answers.append(request.form["check"])
-#     return render_template("drivers_test.html", all_data=all_data)
+
+@app.route("/add_test_topic", methods=['GET', 'POST'])
+def add_test_topic():
+    return render_template("add_test_topic.html")
