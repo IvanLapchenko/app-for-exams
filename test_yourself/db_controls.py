@@ -21,14 +21,17 @@ def add_new_test(question, ans1, ans2, correct):
         return msg
 
 
-def get_db():
+def get_db(table_name=None):
     db = getattr(g, "_database", None)
     if db is None:
         db = g._database = sqlite3.connect("app.db")
         cursor = db.cursor()
-        cursor.execute("select * from drivers_test")
-        all_data = cursor.fetchall()
-        all_data = [list(l) for l in all_data]
+        if table_name is None:
+            all_data = cursor.execute(".tables").fetchall()
+        else:
+            cursor.execute(f"select * from {table_name}")
+            all_data = cursor.fetchall()
+            all_data = [list(l) for l in all_data]
         return all_data
 
 
