@@ -41,4 +41,9 @@ def drivers_test():
 
 @app.route("/add_new_topic", methods=['GET', 'POST'])
 def add_new_topic():
+    if request.method == "POST":
+        msg = db_controls.add_table(request.form["topic"])
+        return msg
     return render_template("add_new_topic.html")
+
+

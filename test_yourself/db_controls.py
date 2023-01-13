@@ -40,7 +40,7 @@ def delete_question(que):
             cursor.execute("""DELETE FROM drivers_test
             WHERE question = ? """, que)
             connection.commit()
-            msg = "Succesfully added"
+            msg = "Successfully added"
     except Exception as e:
         connection.rollback()
         msg = "Error"
@@ -50,8 +50,27 @@ def delete_question(que):
 
 
 def add_table(name):
+    msg = ""
+    try:
+        with sqlite3.connect("app.db") as connection:
+            cursor = connection.cursor()
+            cursor.execute(f'CREATE TABLE {name} (question TEXT, ans1 TEXT, ans2 TEXT, correct TEXT)')
+            connection.commit()
+            msg = "Successfully added"
+    except:
+        connection.rollback()
+        msg = "Error"
+    finally:
+        connection.close()
+        return msg
+
+
+def del_table(name):
     with sqlite3.connect("app.db") as connection:
-        connection.execute(f'CREATE TABLE {name} (question TEXT, ans1 TEXT, ans2 TEXT, correct TEXT)')
+        cursor = connection.cursor()
+        cursor.execute(f'DROP TABLE {name};')
+        connection.commit()
+
 
 @app.teardown_appcontext
 def close_connection(ex):
