@@ -39,6 +39,6 @@ def drivers_test():
     return render_template("drivers_test.html", all_data=all_data)
 
 
-@app.route("/add_test_topic", methods=['GET', 'POST'])
-def add_test_topic():
-    return render_template("add_test_topic.html")
+@app.route("/add_new_topic.html", methods=['GET', 'POST'])
+def add_new_topic():
+    return render_template("add_new_topic.html")
