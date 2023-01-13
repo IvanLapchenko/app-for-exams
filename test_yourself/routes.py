@@ -28,9 +28,15 @@ def drivers_test():
     correct = {i[0]: i[3] for i in all_data}
     [test.insert(randint(1, 3), test.pop(3)) for test in all_data]
     if request.method == "POST":
-        return correct
+        correct_answers = 0
+        passed = False
+        for i in correct:
+            if request.form[i] == correct[i]:
+                correct_answers += 1
+            if correct_answers / len(correct) > 0.75:
+                passed = True
+        return render_template("see_result.html", correct_answers=correct_answers, passed=passed)
     return render_template("drivers_test.html", all_data=all_data)
-
 
 # @app.route("/view_test", methods=['GET', 'POST'])
 # def view_test():
