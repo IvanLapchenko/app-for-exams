@@ -47,7 +47,7 @@ def add_new_topic():
     all_topics = [str(i[0]).replace("_", " ") for i in all_topics]
     if request.method == "POST":
         msg = db_controls.add_table(request.form["topic"])
-        return msg
+        return render_template("add_new_topic.html", all_topics=all_topics, msg=msg)
     return render_template("add_new_topic.html", all_topics=all_topics)
 
 
