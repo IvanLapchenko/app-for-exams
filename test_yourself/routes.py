@@ -24,7 +24,7 @@ def add_test():
 
 @app.route("/drivers_test", methods=['GET', 'POST'])
 def drivers_test():
-    all_data = db_controls.get_db()
+    all_data = db_controls.get_db("drivers_test")
     correct = {i[0]: i[3] for i in all_data}
     [test.insert(randint(1, 3), test.pop(3)) for test in all_data]
     if request.method == "POST":
@@ -41,9 +41,10 @@ def drivers_test():
 
 @app.route("/add_new_topic", methods=['GET', 'POST'])
 def add_new_topic():
+    all_topics = db_controls.get_db()
     if request.method == "POST":
         msg = db_controls.add_table(request.form["topic"])
         return msg
-    return render_template("add_new_topic.html")
+    return render_template("add_new_topic.html", all_topics=all_topics)
 
 

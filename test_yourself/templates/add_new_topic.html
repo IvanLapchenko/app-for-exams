@@ -6,4 +6,7 @@
   <input type = "text" id="topic" name = "topic" /><br>
   <input type="submit" value="ADD">
 </form>
+{% for topic in all_topics %}
+<span>{{ topic }}</span>
+{% endfor %}
 {% endblock %}
