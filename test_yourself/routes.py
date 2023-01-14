@@ -42,6 +42,7 @@ def drivers_test():
 @app.route("/add_new_topic", methods=['GET', 'POST'])
 def add_new_topic():
     all_topics = db_controls.get_db()
+    all_topics = [str(i[0]).replace("_", " ") for i in all_topics]
     if request.method == "POST":
         msg = db_controls.add_table(request.form["topic"])
         return msg

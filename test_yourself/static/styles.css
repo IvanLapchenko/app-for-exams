@@ -21,7 +21,7 @@ input[type=submit] .link {
   cursor: pointer;
 }
 
-h1 {
+h1, h3 {
     text-align: center;
 }
 
