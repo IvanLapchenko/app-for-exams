@@ -1,7 +1,7 @@
 from random import randint
 
 from test_yourself import app, db_controls
-from flask import render_template, request
+from flask import render_template, request, redirect
 
 
 @app.route("/")
@@ -51,3 +51,8 @@ def add_new_topic():
     return render_template("add_new_topic.html", all_topics=all_topics)
 
 
+@app.route("/delete_table/<name>")
+def delete_table(name):
+    name = name.replace(" ", "_")
+    db_controls.del_table(name)
+    return redirect("/add_new_topic")

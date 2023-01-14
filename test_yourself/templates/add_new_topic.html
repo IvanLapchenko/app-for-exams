@@ -8,8 +8,8 @@
 </form>
 {% for topic in all_topics %}
 <div class="tables_list">
-  <a href="/drivers_test/{{ topic }}"  >{{ topic }}</a>
-
+  <a href="/drivers_test/{{ topic }}">{{ topic }}</a>
+  <a href="/delete_table/{{ topic }}">Delete</a>
 </div>
 {% endfor %}
 {% endblock %}
