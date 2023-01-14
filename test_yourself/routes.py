@@ -22,9 +22,11 @@ def add_test():
     return render_template("add_test.html")
 
 
-@app.route("/drivers_test", methods=['GET', 'POST'])
-def drivers_test():
-    all_data = db_controls.get_db("drivers_test")
+@app.route("/drivers_test")
+@app.route("/drivers_test/<specified>", methods=['GET', 'POST'])
+def drivers_test(specified=None):
+    if specified: specified = specified.replace(" ", "_")
+    all_data = db_controls.get_db(specified)
     correct = {i[0]: i[3] for i in all_data}
     [test.insert(randint(1, 3), test.pop(3)) for test in all_data]
     if request.method == "POST":

@@ -3,10 +3,13 @@
 {% block content %}
 <form action="add_new_topic" method="post">
   <label for="topic">Enter name of your topic</label>
-  <input type = "text" id="topic" name = "topic" placeholder="Please separate the words by _ "/><br>
+  <input type = "text" id="topic" name = "topic" /><br>
   <input type="submit" value="ADD">
 </form>
 {% for topic in all_topics %}
-<h3>{{ topic }}</h3>
+<div class="tables_list">
+  <a href="/drivers_test/{{ topic }}"  >{{ topic }}</a>
+
+</div>
 {% endfor %}
 {% endblock %}
