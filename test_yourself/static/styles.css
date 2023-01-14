@@ -1,3 +1,8 @@
+html{
+      font-family: 'Courier New', monospace;
+}
+
+
 form, .tables_list {
     padding: 20px;
     margin: 30px;
@@ -10,7 +15,7 @@ input, label  {
     margin: 10px;
 }
 
-input[type=submit] .link {
+input[type=submit], .link {
   background-color: #c6cc5a;
   border: none;
   border-radius: 10px;
@@ -54,4 +59,41 @@ li a {
 
 li a:hover {
   background-color: #c5c96f;
+}
+
+
+.tables_list {
+  display: flex;
+  gap: 0.625%;
+}
+
+.tables_list a {
+  flex: 1;
+  text-decoration: none;
+  outline: none;
+  text-align: center;
+  line-height: 2;
+  color: black;
+}
+
+.tables_list a:link,
+.tables_list a:visited,
+.tables_list a:focus {
+  background: palegoldenrod;
+  color: black;
+}
+
+.tables_list a:hover {
+  background: orange;
+}
+
+input[type=text] {
+  width: 30%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+}
+
+label, span, a {
+    color:  #5c0650;
 }
