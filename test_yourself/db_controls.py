@@ -27,7 +27,7 @@ def get_db(table_name=None):
         db = g._database = sqlite3.connect("app.db")
         cursor = db.cursor()
         if table_name is None:
-            all_data = cursor.execute(".tables").fetchall()
+            all_data = cursor.execute("SELECT name FROM sqlite_schema WHERE type ='table'").fetchall()
         else:
             cursor.execute(f"select * from {table_name}")
             all_data = cursor.fetchall()
