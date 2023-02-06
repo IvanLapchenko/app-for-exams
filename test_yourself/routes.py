@@ -1,7 +1,7 @@
 import sqlite3
 from random import randint
 
-from flask_login import login_user
+from flask_login import login_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from test_yourself import app, db_controls, login_manager
 from flask import render_template, request, redirect
@@ -63,19 +63,31 @@ def delete_table(name):
 
 @app.route("/")
 @app.route("/login", methods=["GET", "POST"])
-def test():
+def login():
     if request.method == "POST":
         name = request.form["name"]
-        password = generate_password_hash(request.form["password"])
-        user_password = check_if_user_exists_return_password(name)
+        password = request.form["password"]
+
+        user_password = check_if_user_exists_return_object(name)
         is_password_correct = check_password_hash(user_password, password)
+
         if not user_password or not is_password_correct:
+            print(user_password)
+            print(is_password_correct)
             return "no lmao"
-        return login_user()
+
+        user = User(name, generate_password_hash(password))
+        login_user(user)
+        return "sssss"
 
     return render_template("login.html")
 
 
+@app.route("/test")
+def test():
+    return str(current_user)
+
+
 @login_manager.user_loader
-def load_user(user_id):
-    return user_id
+def load_user(user):
+    return user
