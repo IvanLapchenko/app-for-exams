@@ -1,12 +1,9 @@
-import sqlite3
-from random import randint
-
 from flask_login import login_user, current_user, logout_user
-from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import check_password_hash
 from test_yourself import app, db_controls, login_manager
 from flask import render_template, request, redirect, flash
-
 from test_yourself.login_service import *
+from tests_service import *
 
 
 @app.route("/index")
@@ -16,6 +13,7 @@ def index():
 
 @app.route("/add_test", methods=['GET', 'POST'])
 def add_test():
+
     if request.method == "POST":
         question = request.form["question"]
         ans1 = request.form["ans1"]
@@ -23,35 +21,32 @@ def add_test():
         correct = request.form["correct"]
         res = db_controls.add_new_test(question, ans1, ans2, correct)
         return res
+
     return render_template("add_test.html")
 
 
 @app.route("/drivers_test")
-@app.route("/drivers_test/<specified>", methods=['GET', 'POST'])
-def drivers_test(specified=None):
-    if specified: specified = specified.replace(" ", "_")
-    all_data = db_controls.get_db(specified)
-    correct = {i[0]: i[3] for i in all_data}
-    [test.insert(randint(1, 3), test.pop(3)) for test in all_data]
+@app.route("/drivers_test/<specified_test>", methods=['GET', 'POST'])
+def drivers_test(specified_test=None):
+    correct, all_data = shuffle_answers_to_test(specified_test)
+
     if request.method == "POST":
-        correct_answers = 0
-        passed = False
-        for i in correct:
-            if request.form[i] == correct[i]:
-                correct_answers += 1
-            if correct_answers / len(correct) > 0.75:
-                passed = True
-        return render_template("see_result.html", correct_answers=correct_answers, passed=passed)
+        is_passed, correct_answers = count_correct_answers(correct, request.form)
+        return render_template("see_result.html",
+                               correct_answers=correct_answers,
+                               passed=is_passed)
+
     return render_template("drivers_test.html", all_data=all_data)
 
 
 @app.route("/add_new_topic", methods=['GET', 'POST'])
 def add_new_topic():
-    all_topics = db_controls.get_db()
-    all_topics = [str(i[0]).replace("_", " ") for i in all_topics]
+    all_topics = get_table_names_in_correct_format()
+
     if request.method == "POST":
         msg = db_controls.add_table(request.form["topic"])
         return render_template("add_new_topic.html", all_topics=all_topics, msg=msg)
+
     return render_template("add_new_topic.html", all_topics=all_topics)
 
 
@@ -73,7 +68,8 @@ def login():
 
         if user_from_database and check_password_hash(user_from_database.password, password):
             login_user(user_from_database)
-            return 'aaaaaaaaaaaaaaa'
+            return redirect("drivers_test")
+
         flash("Check if you entered data correctly")
         return redirect("login")
 
@@ -84,11 +80,6 @@ def login():
 def logout():
     logout_user()
     return redirect("login")
-
-
-@app.route("/test")
-def test():
-    return str(current_user.is_authenticated)
 
 
 @login_manager.user_loader
