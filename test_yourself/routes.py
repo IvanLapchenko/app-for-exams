@@ -3,7 +3,7 @@ from random import randint
 from werkzeug.security import generate_password_hash
 from test_yourself import app, db_controls
 from flask import render_template, request, redirect
-
+from test_yourself.login_service import *
 
 
 @app.route("/index")
@@ -59,14 +59,12 @@ def delete_table(name):
     return redirect("/add_new_topic")
 
 
-# @app.route("/")
-# @app.route("/test", methods=["GET", "POST"])
-# def test():
-#     if request.method == "POST":
-#         log = request.form["log"]
-#         pwd = generate_password_hash(request.form["pwd"])
-#         con = sqlite3.connect("app.db")
-#         con.execute(f"INSERT INTO test (log, pwd) VALUES {log, pwd}")
-#         con.commit()
-#         return pwd
-#     return render_template("test.html")
+@app.route("/")
+@app.route("/login", methods=["GET", "POST"])
+def test():
+    if request.method == "POST":
+        name = request.form["name"]
+        password = generate_password_hash(request.form["password"])
+        user_password = check_if_user_exists_return_password(name)
+        return user_password
+    return render_template("login.html")
