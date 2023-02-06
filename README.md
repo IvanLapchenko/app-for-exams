@@ -2,8 +2,8 @@ Application for passing a test on different topics with CRUD model implemented b
 
 To test it run:
 
-git clone
+git clone https://github.com/IvanLapchenko/python-app-for-exams.git
 
-cd 
+cd test_yourself
 
 flask run
