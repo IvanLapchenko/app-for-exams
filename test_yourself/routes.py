@@ -1,10 +1,11 @@
+import sqlite3
 from random import randint
-
+from werkzeug.security import generate_password_hash
 from test_yourself import app, db_controls
 from flask import render_template, request, redirect
 
 
-@app.route("/")
+
 @app.route("/index")
 def index():
     return render_template("add_test.html")
@@ -56,3 +57,16 @@ def delete_table(name):
     name = name.replace(" ", "_")
     db_controls.del_table(name)
     return redirect("/add_new_topic")
+
+
+# @app.route("/")
+# @app.route("/test", methods=["GET", "POST"])
+# def test():
+#     if request.method == "POST":
+#         log = request.form["log"]
+#         pwd = generate_password_hash(request.form["pwd"])
+#         con = sqlite3.connect("app.db")
+#         con.execute(f"INSERT INTO test (log, pwd) VALUES {log, pwd}")
+#         con.commit()
+#         return pwd
+#     return render_template("test.html")
