@@ -1,5 +1,4 @@
 import sqlite3
-from random import randint
 
 from flask_login import UserMixin
 
@@ -7,15 +6,20 @@ connection = sqlite3.connect("app.db", check_same_thread=False)
 cursor = connection.cursor()
 
 
+def get_user_by_id(user_id):
+    cursor.execute(f"SELECT * from users WHERE id = '{user_id}'")
+    id, username, password = cursor.fetchall()[0]
+    return User(id, username, password)
+
 def check_if_user_exists_return_object(name):
-    cursor.execute(f"SELECT id from test WHERE log = '{name}'")
-    password = cursor.fetchall() #this is here cause req returns list of tuples
-    print(password)
+    cursor.execute(f"SELECT * from users WHERE username = '{name}'")
 
-    if len(password) == 0:
-        return None
+    # if len(user_data) == 0:
+    #     return None
 
-    return User(1, "a", 'a')
+    id, username, password = cursor.fetchall()[0]
+    print(id, username, password)
+    return User(id, username, password)
 
 
 class User(UserMixin):

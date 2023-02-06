@@ -68,16 +68,16 @@ def login():
         name = request.form["name"]
         password = request.form["password"]
 
-        user_password = check_if_user_exists_return_object(name)
-        is_password_correct = check_password_hash(user_password, password)
+        user_from_database = check_if_user_exists_return_object(name)
+        is_password_correct = check_password_hash(user_from_database.password, password)
 
-        if not user_password or not is_password_correct:
-            print(user_password)
+        if not user_from_database or not is_password_correct:
+            print(user_from_database)
             print(is_password_correct)
             return "no lmao"
 
-        user = User(name, generate_password_hash(password))
-        login_user(user)
+
+        login_user(user_from_database)
         return "sssss"
 
     return render_template("login.html")
@@ -85,9 +85,10 @@ def login():
 
 @app.route("/test")
 def test():
-    return str(current_user)
+    return str(current_user.is_authenticated)
 
 
 @login_manager.user_loader
-def load_user(user):
+def load_user(user_id):
+    user = get_user_by_id(user_id)
     return user
