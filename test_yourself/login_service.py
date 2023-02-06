@@ -8,12 +8,16 @@ cursor = connection.cursor()
 
 def get_user_by_column(column: str, value: any) -> object | None:
     cursor.execute(f"SELECT * from users WHERE {column} = '{value}'")
-    if check_if_user_found(cursor.fetchall()):
-        id, username, password = cursor.fetchall()[0]
+    user_data_list = cursor.fetchall()
+    if check_if_user_found(user_data_list):
+        (id, username, password) = user_data_list[0]
         return User(id, username, password)
+    return None
 
 
 def check_if_user_found(data: list) -> bool:
+    print(len(data))
+    print(data)
     return True if len(data) > 0 else False
 
 

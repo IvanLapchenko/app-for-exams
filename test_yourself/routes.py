@@ -1,10 +1,11 @@
 import sqlite3
 from random import randint
 
-from flask_login import login_user, current_user
+from flask_login import login_user, current_user, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from test_yourself import app, db_controls, login_manager
-from flask import render_template, request, redirect
+from flask import render_template, request, redirect, flash
+
 from test_yourself.login_service import *
 
 
@@ -68,19 +69,21 @@ def login():
         name = request.form["name"]
         password = request.form["password"]
 
-        user_from_database = get_user_by_column("name", name)
-        is_password_correct = check_password_hash(user_from_database.password, password)
+        user_from_database = get_user_by_column("username", name)
 
-        if not user_from_database or not is_password_correct:
-            print(user_from_database)
-            print(is_password_correct)
-            return "no lmao"
-
-
-        login_user(user_from_database)
-        return "sssss"
+        if user_from_database and check_password_hash(user_from_database.password, password):
+            login_user(user_from_database)
+            return 'aaaaaaaaaaaaaaa'
+        flash("Check if you entered data correctly")
+        return redirect("login")
 
     return render_template("login.html")
+
+
+@app.route("/logout")
+def logout():
+    logout_user()
+    return redirect("login")
 
 
 @app.route("/test")

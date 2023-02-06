@@ -10,6 +10,12 @@
     <li><a href="/add_test">Add test</a></li>
     <li><a href="/drivers_test/drivers_test">Driver's test</a></li>
     <li><a href="/add_new_topic">Add new topic</a></li>
+    {% if current_user.is_authenticated %}
+        <li><a href="/logout">Log out</a></li>
+    {% else %}
+        <li><a href="/login">Log in</a></li>
+    {% endif%}
+
 </ul>
 {% block content %}
 {% endblock %}
