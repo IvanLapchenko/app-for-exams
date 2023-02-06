@@ -68,7 +68,7 @@ def login():
         name = request.form["name"]
         password = request.form["password"]
 
-        user_from_database = check_if_user_exists_return_object(name)
+        user_from_database = get_user_by_column("name", name)
         is_password_correct = check_password_hash(user_from_database.password, password)
 
         if not user_from_database or not is_password_correct:
@@ -90,5 +90,5 @@ def test():
 
 @login_manager.user_loader
 def load_user(user_id):
-    user = get_user_by_id(user_id)
+    user = get_user_by_column("id", user_id)
     return user

@@ -1,25 +1,20 @@
 import sqlite3
-
 from flask_login import UserMixin
+
 
 connection = sqlite3.connect("app.db", check_same_thread=False)
 cursor = connection.cursor()
 
 
-def get_user_by_id(user_id):
-    cursor.execute(f"SELECT * from users WHERE id = '{user_id}'")
-    id, username, password = cursor.fetchall()[0]
-    return User(id, username, password)
+def get_user_by_column(column: str, value: any) -> object | None:
+    cursor.execute(f"SELECT * from users WHERE {column} = '{value}'")
+    if check_if_user_found(cursor.fetchall()):
+        id, username, password = cursor.fetchall()[0]
+        return User(id, username, password)
 
-def check_if_user_exists_return_object(name):
-    cursor.execute(f"SELECT * from users WHERE username = '{name}'")
 
-    # if len(user_data) == 0:
-    #     return None
-
-    id, username, password = cursor.fetchall()[0]
-    print(id, username, password)
-    return User(id, username, password)
+def check_if_user_found(data: list) -> bool:
+    return True if len(data) > 0 else False
 
 
 class User(UserMixin):
