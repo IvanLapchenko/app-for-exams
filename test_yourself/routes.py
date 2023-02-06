@@ -1,7 +1,9 @@
 import sqlite3
 from random import randint
-from werkzeug.security import generate_password_hash
-from test_yourself import app, db_controls
+
+from flask_login import login_user
+from werkzeug.security import generate_password_hash, check_password_hash
+from test_yourself import app, db_controls, login_manager
 from flask import render_template, request, redirect
 from test_yourself.login_service import *
 
@@ -66,5 +68,14 @@ def test():
         name = request.form["name"]
         password = generate_password_hash(request.form["password"])
         user_password = check_if_user_exists_return_password(name)
-        return user_password
+        is_password_correct = check_password_hash(user_password, password)
+        if not user_password or not is_password_correct:
+            return "no lmao"
+        return login_user()
+
     return render_template("login.html")
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    return user_id
