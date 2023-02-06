@@ -1,4 +1,4 @@
-from flask_login import login_user, current_user, logout_user
+from flask_login import login_user, current_user, logout_user, login_required
 from werkzeug.security import check_password_hash
 from test_yourself import app, db_controls, login_manager
 from flask import render_template, request, redirect, flash
@@ -12,6 +12,7 @@ def index():
 
 
 @app.route("/add_test", methods=['GET', 'POST'])
+@login_required
 def add_test():
 
     if request.method == "POST":
@@ -40,6 +41,7 @@ def drivers_test(specified_test=None):
 
 
 @app.route("/add_new_topic", methods=['GET', 'POST'])
+@login_required
 def add_new_topic():
     all_topics = get_table_names_in_correct_format()
 
@@ -51,6 +53,7 @@ def add_new_topic():
 
 
 @app.route("/delete_table/<name>")
+@login_required
 def delete_table(name):
     name = name.replace(" ", "_")
     db_controls.del_table(name)
