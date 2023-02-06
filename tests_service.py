@@ -16,6 +16,8 @@ def shuffle_answers_to_test(specified_test) -> tuple:
 
 def count_correct_answers(correct_answers: dict, user_answers: dict) -> tuple:
     number_of_correct_answers = 0
+    if len(user_answers) < len(correct_answers):
+        return False, 0
     for i in correct_answers:
         if user_answers[i] == correct_answers[i]:
             number_of_correct_answers += 1

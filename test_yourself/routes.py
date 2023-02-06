@@ -26,7 +26,7 @@ def add_test():
     return render_template("add_test.html")
 
 
-@app.route("/drivers_test")
+@app.route("/drivers_test", methods=['GET', 'POST'])
 @app.route("/drivers_test/<specified_test>", methods=['GET', 'POST'])
 def drivers_test(specified_test=None):
     correct, all_data = shuffle_answers_to_test(specified_test)
